@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import '../styles/App.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -17,7 +18,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if(loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -32,7 +33,7 @@ const App = () => {
     try{
       const user = await loginService.login({username, password})
       window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
+        'loggedBlogappUser', JSON.stringify(user)
       )
       setUser(user)
 
@@ -46,13 +47,15 @@ const App = () => {
     }
   }
 
-  const handleLogout = async event => {
-    console.log('click')
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedBlogappUser')
+    setUser(null)
   }
     if (user === null){
      return (
       <div>
         <h2>Log in to application</h2>
+        {errorMessage && <div className='error'>{errorMessage}</div>}
          <form onSubmit={handleLogin}>
            <div>
              <label>
@@ -67,7 +70,7 @@ const App = () => {
              <label>
                password
                <input
-                 type="text"
+                 type="password"
                  value={password}
                  onChange={({ target }) => setPassword(target.value)} />
              </label>
@@ -81,7 +84,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <p>{user.name} logged in</p>
+      <p>{user.name} logged in <button onClick={handleLogout}>Log out</button></p>
       {blogs.map(blog => <Blog key={blog.id} blog={blog}/>)}
     </div>
   )
