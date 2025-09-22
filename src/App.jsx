@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification  from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import '../styles/App.css'
+import '../index.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -37,6 +38,10 @@ const App = () => {
       url
     }
     blogService.create(blogObject).then(returnedBlog => {
+      setErrorMessage(`a new blog ${title}, by ${author} added`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
       setBlogs(blogs.concat(returnedBlog))
       setTitle('')
       setAuthor('')
@@ -58,7 +63,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch{
-      setErrorMessage('wrong credentials')
+      setErrorMessage('Wrong username or password')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -74,7 +79,7 @@ const App = () => {
      return (
       <div>
         <h2>Log in to application</h2>
-        {errorMessage && <div className='error'>{errorMessage}</div>}
+         {errorMessage && <Notification message={errorMessage} type="error"/>}
          <form onSubmit={handleLogin}>
            <div>
              <label>
@@ -103,6 +108,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      {errorMessage && <Notification message={errorMessage} type="success"/>}
       <p>{user.name} logged in <button onClick={handleLogout}>Log out</button></p>
       <h2>Create new</h2>
       <form onSubmit={createBlog}>
