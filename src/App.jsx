@@ -103,7 +103,7 @@ const App = () => {
         <CreateBlogForm
           createBlog={createBlog}
         />
-      {blogs.map(blog => <Blog key={blog.id} blog={blog}/>)}
+      {blogs.sort((a, b) => a.likes - b.likes).map(blog => <Blog key={blog.id} blog={blog}/>)}
     </div>
   )
 }
