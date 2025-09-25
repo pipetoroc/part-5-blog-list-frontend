@@ -16,7 +16,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const App = () => {
     console.log('logging in with', username, password)
 
     try{
-      const user = await loginService.login({username, password})
+      const user = await loginService.login({ username, password })
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       )
@@ -64,35 +64,35 @@ const App = () => {
     setUser(null)
   }
 
-    if (user === null){
-     return (
+  if (user === null){
+    return (
       <div>
         <h2>Log in to application</h2>
-         {errorMessage && <Notification message={errorMessage} type="error"/>}
-         <form onSubmit={handleLogin}>
-           <div>
-             <label>
+        {errorMessage && <Notification message={errorMessage} type="error"/>}
+        <form onSubmit={handleLogin}>
+          <div>
+            <label>
                username
-               <input
-                 type="text"
-                 value={username}
-                 onChange={({ target }) => setUsername(target.value)} />
-             </label>
-           </div>
-           <div>
-             <label>
+              <input
+                type="text"
+                value={username}
+                onChange={({ target }) => setUsername(target.value)} />
+            </label>
+          </div>
+          <div>
+            <label>
                password
-               <input
-                 type="password"
-                 value={password}
-                 onChange={({ target }) => setPassword(target.value)} />
-             </label>
-           </div>
-           <button type='submit'>login</button>
-         </form>
-       </div>
-     ) 
-    }
+              <input
+                type="password"
+                value={password}
+                onChange={({ target }) => setPassword(target.value)} />
+            </label>
+          </div>
+          <button type='submit'>login</button>
+        </form>
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -100,17 +100,17 @@ const App = () => {
       {errorMessage && <Notification message={errorMessage} type="success"/>}
       <p>{user.name} logged in <button onClick={handleLogout}>Log out</button></p>
       <h2>Create new</h2>
-        <CreateBlogForm
-          createBlog={createBlog}
-        />
+      <CreateBlogForm
+        createBlog={createBlog}
+      />
       {blogs.sort((a, b) => a.likes - b.likes).map(blog => (
-        <Blog 
-          key={blog.id} 
+        <Blog
+          key={blog.id}
           blog={blog}
           user={user}
           onDelete={(id) => setBlogs(blogs.filter(b => b.id !== id))}
         />)
-        )}
+      )}
     </div>
   )
 }

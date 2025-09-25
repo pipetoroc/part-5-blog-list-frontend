@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 import blogService from '../services/blogs'
 
 const Blog = ({ blog, user, onDelete }) => {
@@ -20,7 +20,7 @@ const Blog = ({ blog, user, onDelete }) => {
         setLikes(returnedBlog.likes)
       })
       .catch(error => {
-        console.error("Error updating blog", error)
+        console.error('Error updating blog', error)
       })
   }
 
@@ -36,13 +36,13 @@ const Blog = ({ blog, user, onDelete }) => {
     <div className="blog">
       {blog.title} {blog.author}
       <button onClick={toggleDetails}>
-        {showDetails ? "Hide" : "View"}
+        {showDetails ? 'Hide' : 'View'}
       </button>
 
       {showDetails && (
         <div >
           <p>Url: {blog.url}</p>
-          <p>Likes: {likes} 
+          <p>Likes: {likes}
             <button onClick={handleUpdate}> Like </button>
           </p>
           <p>Author: {blog.author}</p>

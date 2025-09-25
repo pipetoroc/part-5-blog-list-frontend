@@ -1,5 +1,5 @@
-import { useRef, useState } from "react"
-import Togglable from "./Togglable"
+import { useRef, useState } from 'react'
+import Togglable from './Togglable'
 
 const CreateBlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
@@ -14,12 +14,12 @@ const CreateBlogForm = ({ createBlog }) => {
       title,
       author,
       url
-  }
-      createBlog(blogObject)
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-      togglableRef.current.toggleVisibility()
+    }
+    createBlog(blogObject)
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+    togglableRef.current.toggleVisibility()
   }
   return (
     <div>
@@ -41,7 +41,7 @@ const CreateBlogForm = ({ createBlog }) => {
               <input
                 type="text"
                 value={author}
-                onChange={({target}) => setAuthor(target.value)}
+                onChange={({ target }) => setAuthor(target.value)}
               />
             </label>
           </div>
