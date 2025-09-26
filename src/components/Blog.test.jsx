@@ -1,6 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
+import blogService from '../services/blogs'
+
+vi.mock('../services/blogs')
 
 test('renders content', () => {
   const blog = {
@@ -52,4 +55,32 @@ test('clicking the "View" button shows blog details', async() => {
   expect(screen.getByText(/Url:/i)).toBeInTheDocument()
   expect(screen.getByText(/Likes:/i)).toBeInTheDocument()
   expect(screen.getByText(/Author:/i)).toBeInTheDocument()
+})
+
+test('clicking twice the like button', async() => {
+  const blog = {
+    title: 'Testing button',
+    author: 'Laura Candido',
+    url: 'http://example.com',
+    likes: 5,
+    user: { username: 'laura' }
+  }
+
+  blogService.update.mockImplementation((id, updatedBlog) => Promise.resolve(updatedBlog))
+
+  render(<Blog
+    blog={blog}
+    user={{ username: 'Felipe' }}
+    onDelete={() => {}}
+  />)
+
+  const user = userEvent.setup()
+  const buttonView = screen.getByText('View')
+  await user.click(buttonView)
+
+  const buttonLike = screen.getByText('Like')
+  await user.click(buttonLike)
+  await user.click(buttonLike)
+
+  expect(screen.getByText(/Likes: 7/i)).toBeInTheDocument()
 })
