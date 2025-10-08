@@ -34,7 +34,7 @@ const App = () => {
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
-      setBlogs(blogs.concat(returnedBlog))
+      setBlogs(blogs.concat({ ...returnedBlog, user }))
     })
   }
 
