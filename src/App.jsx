@@ -5,6 +5,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import '../index.css'
 import CreateBlogForm from './components/CreateBlogForm'
+import { ListOfBlogs } from './components/ListOfBlogs'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -14,8 +15,11 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
+    blogService.getAll().then(blogs => {
+
+      console.log(blogs, 'getAll')
       setBlogs( blogs )
+    }
     )
   }, [])
 
@@ -103,14 +107,7 @@ const App = () => {
       <CreateBlogForm
         createBlog={createBlog}
       />
-      {blogs.sort((a, b) => a.likes - b.likes).map(blog => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          user={user}
-          onDelete={(id) => setBlogs(blogs.filter(b => b.id !== id))}
-        />)
-      )}
+      < ListOfBlogs blogs={blogs} user={user} setBlogs={setBlogs}/>
     </div>
   )
 }
