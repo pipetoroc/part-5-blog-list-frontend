@@ -8,14 +8,14 @@ import { ListOfBlogs } from './components/ListOfBlogs'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification, clearNotification } from './reducers/notificationReducer'
 import { appendBlog, setBlogs } from './reducers/blogReducer'
+import { setUser, clearUser } from './reducers/userReducer'
 
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
 
   const dispatch = useDispatch()
-  const blogs = useSelector(state => state.blogs)
+  const user = useSelector(state => state.user)
 
   const showNotification = (message, type = 'success') => {
     dispatch(setNotification({ message, type })
@@ -45,10 +45,10 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if(loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(setUser(user))
       blogService.setToken(user.token)
     }
-  }, [])
+  }, [dispatch])
 
   const handleLogin = async event => {
     event.preventDefault()
@@ -60,7 +60,8 @@ const App = () => {
         'loggedBlogappUser', JSON.stringify(user)
       )
       blogService.setToken(user.token)
-      setUser(user)
+      dispatch(setUser(user))
+
       setUsername('')
       setPassword('')
     } catch{
@@ -70,7 +71,8 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
-    setUser(null)
+
+    dispatch(clearUser())
   }
 
   if (user === null){
@@ -112,7 +114,7 @@ const App = () => {
       <CreateBlogForm
         createBlog={createBlog}
       />
-      < ListOfBlogs blogs={blogs} user={user} />
+      < ListOfBlogs />
     </div>
   )
 }
