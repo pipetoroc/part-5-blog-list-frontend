@@ -5,16 +5,17 @@ import loginService from './services/login'
 import '../index.css'
 import CreateBlogForm from './components/CreateBlogForm'
 import { ListOfBlogs } from './components/ListOfBlogs'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setNotification, clearNotification } from './reducers/notificationReducer'
+import { appendBlog, setBlogs } from './reducers/blogReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
   const dispatch = useDispatch()
+  const blogs = useSelector(state => state.blog)
 
   const showNotification = (message, type = 'success') => {
     dispatch(setNotification({ message, type })
@@ -27,12 +28,18 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs => {
+      dispatch(setBlogs( blogs ))
+    })
+  }, [dispatch])
 
-      console.log(blogs, 'getAll')
-      setBlogs( blogs )
-    }
-    )
-  }, [])
+  const createBlog = (blogObject) => {
+    blogService.create(blogObject).then(returnedBlog => {
+      dispatch(
+        appendBlog({ ...returnedBlog, user })
+      )
+      showNotification(`a new blog ${blogObject.title}, by ${blogObject.author} added`, 'success')
+    })
+  }
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -42,13 +49,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-
-  const createBlog = (blogObject) => {
-    blogService.create(blogObject).then(returnedBlog => {
-      showNotification(`a new blog ${blogObject.title}, by ${blogObject.author} added`, 'success')
-      setBlogs(prevBlogs => prevBlogs.concat({ ...returnedBlog, user }))
-    })
-  }
 
   const handleLogin = async event => {
     event.preventDefault()
@@ -112,7 +112,7 @@ const App = () => {
       <CreateBlogForm
         createBlog={createBlog}
       />
-      < ListOfBlogs blogs={blogs} user={user} setBlogs={setBlogs}/>
+      < ListOfBlogs blogs={blogs} user={user} />
     </div>
   )
 }

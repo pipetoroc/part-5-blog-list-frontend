@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
+import { removeBlog } from '../reducers/blogReducer'
+import { useDispatch } from 'react-redux'
 
-const Blog = ({ blog, user, onDelete }) => {
+const Blog = ({ blog, user }) => {
   const [showDetails, setShowDetails] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
+
+  const dispatch = useDispatch()
 
   const toggleDetails = () => {
     setShowDetails(details => !details)
@@ -27,7 +31,7 @@ const Blog = ({ blog, user, onDelete }) => {
   const handleDelete = () => {
     if(window.confirm(`Delete blog "${blog.title}" by ${blog.author}?`)){
       blogService.remove(blog.id).then(() => {
-        onDelete(blog.id)
+        dispatch(removeBlog(blog.id))
       })
     }
   }
