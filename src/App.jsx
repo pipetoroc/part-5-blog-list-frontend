@@ -5,13 +5,25 @@ import loginService from './services/login'
 import '../index.css'
 import CreateBlogForm from './components/CreateBlogForm'
 import { ListOfBlogs } from './components/ListOfBlogs'
+import { useDispatch } from 'react-redux'
+import { setNotification, clearNotification } from './reducers/notificationReducer'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
+
+  const dispatch = useDispatch()
+
+  const showNotification = (message, type = 'success') => {
+    dispatch(setNotification({ message, type })
+    )
+
+    setTimeout(() => {
+      dispatch(clearNotification())
+    }, 5000)
+  }
 
   useEffect(() => {
     blogService.getAll().then(blogs => {
@@ -33,10 +45,7 @@ const App = () => {
 
   const createBlog = (blogObject) => {
     blogService.create(blogObject).then(returnedBlog => {
-      setErrorMessage(`a new blog ${blogObject.title}, by ${blogObject.author} added`)
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      showNotification(`a new blog ${blogObject.title}, by ${blogObject.author} added`, 'success')
       setBlogs(prevBlogs => prevBlogs.concat({ ...returnedBlog, user }))
     })
   }
@@ -55,10 +64,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch{
-      setErrorMessage('Wrong username or password')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      showNotification('Wrong username or password', 'error')
     }
   }
 
@@ -71,7 +77,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        {errorMessage && <Notification message={errorMessage} type="error"/>}
+        <Notification />
         <form onSubmit={handleLogin}>
           <div>
             <label>
@@ -100,7 +106,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      {errorMessage && <Notification message={errorMessage} type="success"/>}
+      <Notification />
       <p>{user.name} logged in <button onClick={handleLogout}>Log out</button></p>
       <h2>Create new</h2>
       <CreateBlogForm
