@@ -15,7 +15,7 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   const dispatch = useDispatch()
-  const blogs = useSelector(state => state.blog)
+  const blogs = useSelector(state => state.blogs)
 
   const showNotification = (message, type = 'success') => {
     dispatch(setNotification({ message, type })

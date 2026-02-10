@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
-import { removeBlog } from '../reducers/blogReducer'
+import { removeBlog, updateBlog } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
 
 const Blog = ({ blog, user }) => {
   const [showDetails, setShowDetails] = useState(false)
-  const [likes, setLikes] = useState(blog.likes)
 
   const dispatch = useDispatch()
 
@@ -16,12 +15,17 @@ const Blog = ({ blog, user }) => {
   const handleUpdate = () => {
     const updatedBlog = {
       ...blog,
-      likes: likes + 1
+      likes: blog.likes + 1
     }
 
     blogService.update(blog.id, updatedBlog)
       .then(returnedBlog => {
-        setLikes(returnedBlog.likes)
+
+        const blogWithUser = {
+          ...returnedBlog,
+          user: blog.user
+        }
+        dispatch(updateBlog(blogWithUser))
       })
       .catch(error => {
         console.error('Error updating blog', error)
@@ -46,7 +50,7 @@ const Blog = ({ blog, user }) => {
       {showDetails && (
         <div >
           <p>Url: {blog.url}</p>
-          <p>Likes: {likes}
+          <p>Likes: {blog.likes}
             <button onClick={handleUpdate}> Like </button>
           </p>
           <p>Author: {blog.author}</p>
