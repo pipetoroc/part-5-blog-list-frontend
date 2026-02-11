@@ -1,16 +1,6 @@
-import { useEffect, useState } from 'react'
-import { getAllUsers } from '../services/users'
+import { Link } from 'react-router-dom'
 
-const Users = () => {
-  const [users, setUsers] = useState([])
-
-  useEffect(() => {
-    getAllUsers().then(users => {
-      setUsers(users)
-    })
-  }, [])
-
-  console.log(users, 'USERS')
+const Users = ({ users }) => {
   return (
     <>
       <h1>Users</h1>
@@ -28,7 +18,9 @@ const Users = () => {
               return (
                 <tr key={user.username}>
                   <td>
-                    {user.name}
+                    <Link to={`/users/${user.id}`}>
+                      {user.name}
+                    </Link>
                   </td>
                   <td>
                     {user.blogs.length}

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Notification  from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import { getAllUsers } from './services/users'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification, clearNotification } from './reducers/notificationReducer'
 import { setBlogs } from './reducers/blogReducer'
@@ -10,10 +11,18 @@ import { setUser, clearUser } from './reducers/userReducer'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import Users from './pages/Users'
 import Home from './pages/Home'
+import User from './pages/User'
 
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+    getAllUsers().then(users => {
+      setUsers(users)
+    })
+  }, [])
 
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
@@ -113,7 +122,8 @@ const App = () => {
 
         <Routes>
           <Route path="/" element={<Home />}/>
-          <Route path="/users" element={<Users/>}/>
+          <Route path="/users" element={<Users users={users}/>}/>
+          <Route path="/users/:id" element={<User users={users}/>}/>
         </Routes>
       </Router>
     </>
