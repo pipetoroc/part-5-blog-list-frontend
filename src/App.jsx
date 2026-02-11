@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import Users from './pages/Users'
 import Home from './pages/Home'
 import User from './pages/User'
+import SingleBlog from './pages/SingleBlog'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -41,8 +42,6 @@ const App = () => {
       dispatch(setBlogs( blogs ))
     })
   }, [dispatch])
-
-
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -77,7 +76,6 @@ const App = () => {
 
     dispatch(clearUser())
   }
-
 
   if (user === null){
     return (
@@ -124,6 +122,8 @@ const App = () => {
           <Route path="/" element={<Home />}/>
           <Route path="/users" element={<Users users={users}/>}/>
           <Route path="/users/:id" element={<User users={users}/>}/>
+          <Route path="/blogs/:id" element={<SingleBlog />}/>
+
         </Routes>
       </Router>
     </>

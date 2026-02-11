@@ -12,8 +12,6 @@ const Home = () => {
   console.log('USER IN HOME', user)
   const dispatch = useDispatch()
 
-
-
   const createBlog = (blogObject) => {
     blogService.create(blogObject).then(returnedBlog => {
       dispatch(
@@ -24,12 +22,9 @@ const Home = () => {
   }
 
   return (
-
     <div>
       <Notification />
-      <CreateBlogForm
-        createBlog={createBlog}
-      />
+      <CreateBlogForm createBlog={createBlog} />
       < ListOfBlogs />
     </div>
   )
