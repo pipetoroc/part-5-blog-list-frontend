@@ -1,14 +1,15 @@
+import '../index.css'
 import { useState, useEffect } from 'react'
 import Notification  from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import '../index.css'
-import CreateBlogForm from './components/CreateBlogForm'
-import { ListOfBlogs } from './components/ListOfBlogs'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification, clearNotification } from './reducers/notificationReducer'
-import { appendBlog, setBlogs } from './reducers/blogReducer'
+import { setBlogs } from './reducers/blogReducer'
 import { setUser, clearUser } from './reducers/userReducer'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import Users from './pages/Users'
+import Home from './pages/Home'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -32,14 +33,7 @@ const App = () => {
     })
   }, [dispatch])
 
-  const createBlog = (blogObject) => {
-    blogService.create(blogObject).then(returnedBlog => {
-      dispatch(
-        appendBlog({ ...returnedBlog, user })
-      )
-      showNotification(`a new blog ${blogObject.title}, by ${blogObject.author} added`, 'success')
-    })
-  }
+
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -75,6 +69,7 @@ const App = () => {
     dispatch(clearUser())
   }
 
+
   if (user === null){
     return (
       <div>
@@ -106,16 +101,22 @@ const App = () => {
   }
 
   return (
-    <div>
-      <h2>blogs</h2>
-      <Notification />
-      <p>{user.name} logged in <button onClick={handleLogout}>Log out</button></p>
-      <h2>Create new</h2>
-      <CreateBlogForm
-        createBlog={createBlog}
-      />
-      < ListOfBlogs />
-    </div>
+    <>
+      <Router>
+        <div>
+          <Link className="nav" to="/">home</Link>
+          <Link className="nav" to="/users">users</Link>
+        </div>
+
+        <h2>blogs</h2>
+        <p>{user.name} logged in <button onClick={handleLogout}>Log out</button></p>
+
+        <Routes>
+          <Route path="/" element={<Home />}/>
+          <Route path="/users" element={<Users/>}/>
+        </Routes>
+      </Router>
+    </>
   )
 }
 
