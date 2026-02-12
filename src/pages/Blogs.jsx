@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import blogService from '../services/blogs'
 import { appendBlog } from '../reducers/blogReducer'
 import showNotification from '../reducers/notificationReducer'
+import Container from 'react-bootstrap/Container'
 
 const Blogs = () => {
 
   const user = useSelector(state => state.user)
-  console.log('USER IN HOME', user)
   const dispatch = useDispatch()
 
   const createBlog = (blogObject) => {
@@ -22,11 +22,11 @@ const Blogs = () => {
   }
 
   return (
-    <div>
+    <Container className='mt-5'>
       <Notification />
       <CreateBlogForm createBlog={createBlog} />
       < ListOfBlogs />
-    </div>
+    </Container>
   )
 }
 

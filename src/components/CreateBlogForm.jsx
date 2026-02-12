@@ -22,7 +22,7 @@ const CreateBlogForm = ({ createBlog }) => {
     togglableRef.current.toggleVisibility()
   }
   return (
-    <div>
+    <div >
       <Togglable buttonLabel="Create a new blog" ref={togglableRef}>
         <form onSubmit={handleSubmit}>
           <div>
@@ -55,7 +55,7 @@ const CreateBlogForm = ({ createBlog }) => {
               />
             </label>
           </div>
-          <button type='submit'>create</button>
+          <button type='submit' className='my-3'>create</button>
         </form>
       </Togglable>
     </div>

@@ -1,4 +1,4 @@
-import '../index.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import { useState, useEffect } from 'react'
 import Notification  from './components/Notification'
 import blogService from './services/blogs'
@@ -13,6 +13,10 @@ import Users from './pages/Users'
 import Blogs from './pages/Blogs'
 import User from './pages/User'
 import SingleBlog from './pages/SingleBlog'
+import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button'
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -109,21 +113,24 @@ const App = () => {
 
   return (
     <>
-      <Router>
-        <div>
-          <Link className="nav" to="/">blogs</Link>
-          <Link className="nav" to="/users">users</Link>
-          <span>{user.name} logged in <button onClick={handleLogout}>Log out</button></span>
-        </div>
+      <Container>
+        <Router>
+          <Navbar bg="light" data-bs-theme="light">
+            <Link className="text-capitalize" to="/">blogs</Link>
+            <Link className="text-capitalize" to="/users">users</Link>
+            <Container>
+              <span>{user.name} logged in <Button onClick={handleLogout} variant="secondary">Log out</Button></span>
+            </Container>
+          </Navbar>
 
-        <Routes>
-          <Route path="/" element={<Blogs />}/>
-          <Route path="/users" element={<Users users={users}/>}/>
-          <Route path="/users/:id" element={<User users={users}/>}/>
-          <Route path="/blogs/:id" element={<SingleBlog />}/>
-
-        </Routes>
-      </Router>
+          <Routes>
+            <Route path="/" element={<Blogs />}/>
+            <Route path="/users" element={<Users users={users}/>}/>
+            <Route path="/users/:id" element={<User users={users}/>}/>
+            <Route path="/blogs/:id" element={<SingleBlog />}/>
+          </Routes>
+        </Router>
+      </Container>
     </>
   )
 }

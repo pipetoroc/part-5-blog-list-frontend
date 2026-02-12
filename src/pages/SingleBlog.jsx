@@ -4,7 +4,6 @@ import  blogServices from '../services/blogs'
 import  { updateBlog } from '../reducers/blogReducer'
 import Comments from '../components/Comments'
 
-
 const SingleBlog = () => {
   const dispatch = useDispatch()
 
@@ -37,7 +36,7 @@ const SingleBlog = () => {
       <h2>blogs</h2>
       <h2>{blog.title}</h2>
       <a href="{blog.url}">{blog.url}</a>
-      <p>{blog.likes} likes <button onClick={handleUpdate}>like</button></p>
+      <p>{blog.likes} likes <button onClick={handleUpdate} className='button is-primary'>like</button></p>
       <p>added by {blog.author}</p>
       <Comments blog={blog}/>
     </div>
