@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import  blogServices from '../services/blogs'
 import  { updateBlog, removeBlog } from '../reducers/blogReducer'
+import Comments from '../components/Comments'
 
 
 const SingleBlog = () => {
@@ -9,6 +10,8 @@ const SingleBlog = () => {
 
   const { id } = useParams()
   const blog = useSelector(state => state.blogs.find((blog) => blog.id === id))
+
+  console.log(blog, 'BLOG')
 
   if (!blog) return null
 
@@ -30,21 +33,23 @@ const SingleBlog = () => {
         console.error('Error updating blog', error)
       })
   }
-  const handleDelete = () => {
-    if(window.confirm(`Delete blog "${blog.title}" by ${blog.author}?`)){
-      blogServices.remove(blog.id).then(() => {
-        dispatch(removeBlog(blog.id))
-      })
-    }
-  }
+  // const handleDelete = () => {
+  //   if(window.confirm(`Delete blog "${blog.title}" by ${blog.author}?`)){
+  //     blogServices.remove(blog.id).then(() => {
+  //       dispatch(removeBlog(blog.id))
+  //     })
+  //   }
+  // }
 
   return (
     <div>
+      <h2>blogs</h2>
       <h2>{blog.title}</h2>
       <a href="{blog.url}">{blog.url}</a>
       <p>{blog.likes} likes <button onClick={handleUpdate}>like</button></p>
-      <button onClick={handleDelete}>remove</button>
+      {/* <button onClick={handleDelete}>remove</button> */}
       <p>added by {blog.author}</p>
+      <Comments comments={blog.comments}/>
     </div>
   )
 }

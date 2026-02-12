@@ -116,8 +116,6 @@ const App = () => {
           <span>{user.name} logged in <button onClick={handleLogout}>Log out</button></span>
         </div>
 
-        <h2>blogs</h2>
-
         <Routes>
           <Route path="/" element={<Blogs />}/>
           <Route path="/users" element={<Users users={users}/>}/>
