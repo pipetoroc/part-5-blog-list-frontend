@@ -6,7 +6,7 @@ import blogService from '../services/blogs'
 import { appendBlog } from '../reducers/blogReducer'
 import showNotification from '../reducers/notificationReducer'
 
-const Home = () => {
+const Blogs = () => {
 
   const user = useSelector(state => state.user)
   console.log('USER IN HOME', user)
@@ -30,4 +30,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Blogs

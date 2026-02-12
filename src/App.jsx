@@ -10,7 +10,7 @@ import { setBlogs } from './reducers/blogReducer'
 import { setUser, clearUser } from './reducers/userReducer'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import Users from './pages/Users'
-import Home from './pages/Home'
+import Blogs from './pages/Blogs'
 import User from './pages/User'
 import SingleBlog from './pages/SingleBlog'
 
@@ -111,15 +111,15 @@ const App = () => {
     <>
       <Router>
         <div>
-          <Link className="nav" to="/">home</Link>
+          <Link className="nav" to="/">blogs</Link>
           <Link className="nav" to="/users">users</Link>
+          <span>{user.name} logged in <button onClick={handleLogout}>Log out</button></span>
         </div>
 
         <h2>blogs</h2>
-        <p>{user.name} logged in <button onClick={handleLogout}>Log out</button></p>
 
         <Routes>
-          <Route path="/" element={<Home />}/>
+          <Route path="/" element={<Blogs />}/>
           <Route path="/users" element={<Users users={users}/>}/>
           <Route path="/users/:id" element={<User users={users}/>}/>
           <Route path="/blogs/:id" element={<SingleBlog />}/>
