@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import Togglable from './Togglable'
+import { Form, Button } from 'react-bootstrap'
 
 const CreateBlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
@@ -24,39 +25,39 @@ const CreateBlogForm = ({ createBlog }) => {
   return (
     <div >
       <Togglable buttonLabel="Create a new blog" ref={togglableRef}>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label >
-              title
-              <input
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className='mb-3' >
+            <Form.Label >
+              Title
+              <Form.Control
                 type="text"
                 value={title}
                 onChange={event => setTitle(event.target.value)}
               />
-            </label>
-          </div>
-          <div>
-            <label >
+            </Form.Label>
+          </Form.Group>
+          <Form.Group className='mb-3'>
+            <Form.Label className='text-capitalize'>
               author
-              <input
+              <Form.Control
                 type="text"
                 value={author}
                 onChange={({ target }) => setAuthor(target.value)}
               />
-            </label>
-          </div>
-          <div>
-            <label >
+            </Form.Label>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label className='text-capitalize'>
               url:
-              <input
+              <Form.Control
                 type="text"
                 value={url}
                 onChange={event => setUrl(event.target.value)}
               />
-            </label>
-          </div>
-          <button type='submit' className='my-3'>create</button>
-        </form>
+            </Form.Label>
+          </Form.Group>
+          <Button type='submit' className='text-capitalize my-3' >create</Button>
+        </Form>
       </Togglable>
     </div>
   )

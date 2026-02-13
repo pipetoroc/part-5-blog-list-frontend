@@ -16,13 +16,13 @@
   border-radius: 0.5rem;
 }
 
-.blog{
+/* .blog{
     padding: 4px;
     margin: 4px 0px;
     padding-top: 10px;
     border: rgb(46, 45, 45) solid 1px;
     
-}
+} */
 div > p{
   margin: 0px;
   padding: 0px;
@@ -38,4 +38,8 @@ div > p{
 
 .nav{
   padding: 5px;
+}
+
+*{
+  background-color: #eef1f4;
 }

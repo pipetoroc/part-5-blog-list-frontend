@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux'
+import { Table } from 'react-bootstrap'
 
 import Blog from './Blog'
 
@@ -10,13 +11,13 @@ export const ListOfBlogs =  () => {
   )
 
   return (
-    <>
+    <Table className='mt-5'>
       {sortedBlogs.map(blog => (
         <Blog
           key={blog.id}
           blog={blog}
         />
       ))}
-    </>
+    </Table>
   )
 }

@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { addComment } from '../reducers/blogReducer'
 import blogServices from '../services/blogs'
+import { Form, FormControl, Button, FormGroup } from 'react-bootstrap'
 
 const Comments = ({ blog }) => {
   console.log(blog)
@@ -18,13 +19,15 @@ const Comments = ({ blog }) => {
   }
 
   return (
-    <>
-      <h2>comments</h2>
+    <section className='container mt-5'>
+      <h2 className='text-capitalize'>comments</h2>
 
-      <form onSubmit={handleAddComment}>
-        <input name="comment" placeholder='Write a comment ...'/>
-        <button type="submit">add comment</button>
-      </form>
+      <Form onSubmit={handleAddComment}>
+        <FormGroup className='mb-3'>
+          <FormControl name="comment" placeholder='Write a comment ...'/>
+          <Button type="submit" className='mt-3'>add comment</Button>
+        </FormGroup>
+      </Form>
 
       <ul>
         {
@@ -34,7 +37,7 @@ const Comments = ({ blog }) => {
           )
         }
       </ul>
-    </>
+    </section>
   )
 }
 

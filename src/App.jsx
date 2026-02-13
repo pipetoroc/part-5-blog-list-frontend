@@ -1,3 +1,4 @@
+import '../index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useState, useEffect } from 'react'
 import Notification  from './components/Notification'
@@ -13,10 +14,7 @@ import Users from './pages/Users'
 import Blogs from './pages/Blogs'
 import User from './pages/User'
 import SingleBlog from './pages/SingleBlog'
-import Container from 'react-bootstrap/Container'
-import Button from 'react-bootstrap/Button'
-import Navbar from 'react-bootstrap/Navbar'
-import Nav from 'react-bootstrap/Nav'
+import { NavbarBrand, Container, Navbar, Button, Nav } from 'react-bootstrap'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -112,26 +110,42 @@ const App = () => {
   }
 
   return (
-    <>
-      <Container>
-        <Router>
-          <Navbar bg="light" data-bs-theme="light">
-            <Link className="text-capitalize" to="/">blogs</Link>
-            <Link className="text-capitalize" to="/users">users</Link>
-            <Container>
-              <span>{user.name} logged in <Button onClick={handleLogout} variant="secondary">Log out</Button></span>
-            </Container>
-          </Navbar>
+    <div className='container'>
+      <Router>
+        <Navbar expand="md">
+          <Container>
+            <Notification />
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className='me-auto'>
+                <Nav.Link
+                  as={Link}
+                  to="/"
+                  className='text-capitalize'
+                >
+                 blogs
+                </Nav.Link>
+                <Nav.Link
+                  as={Link}
+                  to="/users"
+                  className='text-capitalize'
+                >
+                  users
+                </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+            <NavbarBrand>{user.name} logged in <Button onClick={handleLogout} variant="secondary">Log out</Button></NavbarBrand>
+          </Container>
+        </Navbar>
 
-          <Routes>
-            <Route path="/" element={<Blogs />}/>
-            <Route path="/users" element={<Users users={users}/>}/>
-            <Route path="/users/:id" element={<User users={users}/>}/>
-            <Route path="/blogs/:id" element={<SingleBlog />}/>
-          </Routes>
-        </Router>
-      </Container>
-    </>
+        <Routes>
+          <Route path="/" element={<Blogs />}/>
+          <Route path="/users" element={<Users users={users}/>}/>
+          <Route path="/users/:id" element={<User users={users}/>}/>
+          <Route path="/blogs/:id" element={<SingleBlog />}/>
+        </Routes>
+      </Router>
+    </div>
   )
 }
 

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import  blogServices from '../services/blogs'
 import  { updateBlog } from '../reducers/blogReducer'
 import Comments from '../components/Comments'
+import Button from 'react-bootstrap/Button'
 
 const SingleBlog = () => {
   const dispatch = useDispatch()
@@ -33,12 +34,12 @@ const SingleBlog = () => {
 
   return (
     <div>
-      <h2>blogs</h2>
-      <h2>{blog.title}</h2>
-      <a href="{blog.url}">{blog.url}</a>
-      <p>{blog.likes} likes <button onClick={handleUpdate} className='button is-primary'>like</button></p>
-      <p>added by {blog.author}</p>
-      <Comments blog={blog}/>
+      <h2 className='text-uppercase'>blogs</h2>
+      <h2 >{blog.title}</h2>
+      <a className='pb-2'href="{blog.url}">{blog.url}</a>
+      <p className='pb-2'>{blog.likes} likes <Button size='sm' variant="secondary" onClick={handleUpdate} className='ms-3'>like</Button></p>
+      <p className='pb-2'>added by {blog.author}</p>
+      <Comments blog={blog} />
     </div>
   )
 }
